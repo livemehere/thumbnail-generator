@@ -1,0 +1,16 @@
+.preview {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+canvas {
+  // background-color: #333;
+  width: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+  .preview {
+    flex: 0;
+    order: 1;
+  }
+}

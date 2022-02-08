@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.scss";
+import Option from "./components/Option/Option";
+import Preview from "./components/Preview/Preview";
+import React, { useState } from "react";
 function App() {
+  const defaultFontColor = "white";
+  const defaultBackgroundColor = "black";
+
+  const [mainTitle, setMainTitle] = useState("제목");
+  const [subTitle, setSubTitle] = useState("부제목");
+  const [img, setImg] = useState(null);
+  const [imgURL, setImgURL] = useState("");
+  const [fontColor, setFontColor] = useState(defaultFontColor);
+  const [backgroundColor, setBackgroundColor] = useState(
+    defaultBackgroundColor
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="title">썸네일 생성기</h1>
+      <div className="container">
+        <Option
+          mainTitle={mainTitle}
+          subTitle={subTitle}
+          setMainTitle={setMainTitle}
+          setSubTitle={setSubTitle}
+          imgURL={imgURL}
+          setImgURL={setImgURL}
+        />
+        <Preview
+          img={img}
+          setImg={setImg}
+          mainTitle={mainTitle}
+          subTitle={subTitle}
+          imgURL={imgURL}
+        />
+      </div>
     </div>
   );
 }
