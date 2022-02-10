@@ -1,7 +1,10 @@
 # 썸네일 생성기
 
-## TODO
+## 외부라이브러리
 
-- [ ] favicon 변경하기
-- [ ] color picker 적용
-- [ ] 다운로드
+- react-color
+- node-sass
+
+## Demo
+
+[데모](https://livemehere.github.io/thumbnail-generator/)
