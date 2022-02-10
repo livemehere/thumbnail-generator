@@ -6,26 +6,40 @@ function App() {
   const defaultFontColor = "white";
   const defaultBackgroundColor = "black";
   const canvasRef = useRef();
-  const [mainTitle, setMainTitle] = useState("제목");
-  const [subTitle, setSubTitle] = useState("부제목");
+  const [mainTitle, setMainTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
   const [img, setImg] = useState(null);
-  const [imgURL, setImgURL] = useState("");
   const [fontColor, setFontColor] = useState(defaultFontColor);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState(
     defaultBackgroundColor
   );
   const downBtnRef = useRef();
-  const [downloadURL, setDownloadURL] = useState("");
+
   const colorChangeComplete = (e) => {
+    setImg(null);
     setBackgroundColor(e.hex);
   };
   const fontColorChangeComplete = (e) => {
     setFontColor(e.hex);
   };
   const handleDownload = () => {
-    console.log(canvasRef.current.toDataURL());
     downBtnRef.current.href = canvasRef.current.toDataURL();
-    downBtnRef.current.download = "test.png";
+    downBtnRef.current.download = "썸네일.png";
+  };
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      const image = new Image();
+      image.src = reader.result;
+      image.onload = () => {
+        setImageLoaded(true);
+        setImg(image);
+      };
+    };
   };
 
   return (
@@ -37,25 +51,24 @@ function App() {
           subTitle={subTitle}
           setMainTitle={setMainTitle}
           setSubTitle={setSubTitle}
-          imgURL={imgURL}
-          setImgURL={setImgURL}
           backgroundColor={backgroundColor}
           colorChangeComplete={colorChangeComplete}
           fontColor={fontColor}
           fontColorChangeComplete={fontColorChangeComplete}
           handleDownload={handleDownload}
           downBtnRef={downBtnRef}
+          handleFile={handleFile}
         />
         <Preview
           img={img}
           setImg={setImg}
           mainTitle={mainTitle}
           subTitle={subTitle}
-          imgURL={imgURL}
           backgroundColor={backgroundColor}
           fontColor={fontColor}
-          setDownloadURL={setDownloadURL}
           canvasRef={canvasRef}
+          imageLoaded={imageLoaded}
+          setImageLoaded={setImageLoaded}
         />
       </div>
     </div>

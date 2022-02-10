@@ -1,43 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./preview.scss";
 
 const Preview = ({
   img,
-  setImg,
   mainTitle,
   subTitle,
-  imgURL,
   backgroundColor,
   fontColor,
-  setDownloadURL,
   canvasRef,
+  imageLoaded,
+  setImageLoaded,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  useEffect(() => {
-    const image = new Image();
-    image.src = imgURL;
-    image.crossOrigin = "Anonymous";
-
-    image.onload = () => {
-      setImg(image);
-      setImageLoaded(true);
-    };
-    image.onerror = (e) => {
-      setImageLoaded(false);
-    };
-  }, [imgURL]);
-
   useEffect(() => {
     // canvas 길이 가져오기
+
     const width = canvasRef.current.width;
     const height = canvasRef.current.height;
 
-    // 이미지가 불러와지면 ~
-
     const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, width, height);
-    if (imageLoaded) {
+
+    if (imageLoaded || img) {
       ctx.drawImage(
         img,
         width / 2 - img.width / 2,
@@ -50,16 +33,17 @@ const Preview = ({
       ctx.fillRect(0, 0, width, height);
     }
 
-    ctx.font = "200px Comic Sans MS";
+    ctx.font = "700 200px Noto Sans KR";
     ctx.fillStyle = fontColor;
     ctx.textAlign = "center";
     ctx.fillText(mainTitle, width / 2, height / 2.2);
 
-    ctx.font = "100px Comic Sans MS";
+    ctx.font = "300 100px Noto Sans KR";
     ctx.fillStyle = fontColor;
     ctx.textAlign = "center";
     ctx.fillText(subTitle, width / 2, height / 1.5);
-  }, [img, imageLoaded, mainTitle, subTitle, backgroundColor, fontColor]);
+    setImageLoaded(false);
+  }, [img, mainTitle, subTitle, backgroundColor, fontColor]);
 
   return (
     <div className="preview">

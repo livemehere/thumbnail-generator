@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TwitterPicker } from "react-color";
 import "./option.scss";
 const Option = ({
@@ -6,17 +6,17 @@ const Option = ({
   setMainTitle,
   subTitle,
   setSubTitle,
-  imgURL,
-  setImgURL,
   backgroundColor,
   colorChangeComplete,
   fontColor,
   fontColorChangeComplete,
   handleDownload,
   downBtnRef,
+  handleFile,
 }) => {
   const [bgPickerOpen, setBgPickerOpen] = useState(false);
   const [fontPickerOpen, setFontPickerOpen] = useState(false);
+  const bgFileRef = useRef();
   return (
     <div className="option">
       <h1>Option</h1>
@@ -25,19 +25,14 @@ const Option = ({
         className="mainTitle"
         value={mainTitle}
         onChange={(e) => setMainTitle(e.target.value)}
+        placeholder="제목"
       />
       <input
         type="text"
         className="subTitle"
         value={subTitle}
         onChange={(e) => setSubTitle(e.target.value)}
-      />
-      <input
-        type="text"
-        className="imgURL"
-        value={imgURL}
-        onChange={(e) => setImgURL(e.target.value)}
-        placeholder="배경 이미지 URL"
+        placeholder="부제목"
       />
       <div className="button-container">
         <div className="button-wrap">
@@ -72,6 +67,18 @@ const Option = ({
             </div>
           ) : null}
         </div>
+
+        <button className="bg-color" onClick={() => bgFileRef.current.click()}>
+          배경이미지
+        </button>
+        <input
+          type="file"
+          ref={bgFileRef}
+          className="bg-image"
+          onChange={handleFile}
+          accept="image/*"
+          style={{ display: "none" }}
+        />
 
         <a ref={downBtnRef} className="download-btn" onClick={handleDownload}>
           다운로드
