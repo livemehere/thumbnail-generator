@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { TwitterPicker } from "react-color";
 import "./option.scss";
 const Option = ({
   mainTitle,
-  subTitle,
   setMainTitle,
+  subTitle,
   setSubTitle,
   imgURL,
   setImgURL,
+  backgroundColor,
+  colorChangeComplete,
+  fontColor,
+  fontColorChangeComplete,
+  handleDownload,
+  downBtnRef,
 }) => {
+  const [bgPickerOpen, setBgPickerOpen] = useState(false);
+  const [fontPickerOpen, setFontPickerOpen] = useState(false);
   return (
     <div className="option">
       <h1>Option</h1>
@@ -28,12 +37,45 @@ const Option = ({
         className="imgURL"
         value={imgURL}
         onChange={(e) => setImgURL(e.target.value)}
-        placeholder="이미지 URL"
+        placeholder="배경 이미지 URL"
       />
-      <div className="button-wrap">
-        <button className="font-color">글씨색</button>
-        <button className="bg-color">배경색</button>
-        <button className="download-btn">다운로드</button>
+      <div className="button-container">
+        <div className="button-wrap">
+          <button
+            className="bg-color"
+            onClick={() => setFontPickerOpen((prev) => !prev)}
+          >
+            글씨색
+          </button>
+          {fontPickerOpen ? (
+            <div className="picker-wrap">
+              <TwitterPicker
+                color={fontColor}
+                onChangeComplete={fontColorChangeComplete}
+              />
+            </div>
+          ) : null}
+        </div>
+        <div className="button-wrap">
+          <button
+            className="bg-color"
+            onClick={() => setBgPickerOpen((prev) => !prev)}
+          >
+            배경색
+          </button>
+          {bgPickerOpen ? (
+            <div className="picker-wrap">
+              <TwitterPicker
+                color={backgroundColor}
+                onChangeComplete={colorChangeComplete}
+              />
+            </div>
+          ) : null}
+        </div>
+
+        <a ref={downBtnRef} className="download-btn" onClick={handleDownload}>
+          다운로드
+        </a>
       </div>
     </div>
   );

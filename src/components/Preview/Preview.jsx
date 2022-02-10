@@ -1,14 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./preview.scss";
 
-const Preview = ({ img, setImg, mainTitle, subTitle, imgURL }) => {
-  const canvasRef = useRef();
-
+const Preview = ({
+  img,
+  setImg,
+  mainTitle,
+  subTitle,
+  imgURL,
+  backgroundColor,
+  fontColor,
+  setDownloadURL,
+  canvasRef,
+}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const image = new Image();
     image.src = imgURL;
+    image.crossOrigin = "Anonymous";
 
     image.onload = () => {
       setImg(image);
@@ -37,20 +46,20 @@ const Preview = ({ img, setImg, mainTitle, subTitle, imgURL }) => {
       ctx.fillStyle = "#00000076";
       ctx.fillRect(0, 0, width, height);
     } else {
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, width, height);
     }
 
     ctx.font = "200px Comic Sans MS";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = fontColor;
     ctx.textAlign = "center";
     ctx.fillText(mainTitle, width / 2, height / 2.2);
 
     ctx.font = "100px Comic Sans MS";
-    ctx.fillStyle = "white";
+    ctx.fillStyle = fontColor;
     ctx.textAlign = "center";
     ctx.fillText(subTitle, width / 2, height / 1.5);
-  }, [img, imageLoaded, mainTitle, subTitle]);
+  }, [img, imageLoaded, mainTitle, subTitle, backgroundColor, fontColor]);
 
   return (
     <div className="preview">
